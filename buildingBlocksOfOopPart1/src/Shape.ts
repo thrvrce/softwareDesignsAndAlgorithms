@@ -12,14 +12,8 @@ export abstract class Shape {
       throw new Error(`[Points constructor]: received ${points.length} points, when minimum 3 points is required`)
     }
 
-    if(color !== undefined && filled !== undefined) {
-      this.color = color
-      this.filled = filled;
-    } else {
-      this.color = 'green'
-      this.filled = true;
-    }
-
+    this.color = color ?? 'green';
+    this.filled = filled ?? true;
     this.points = points
   }
 

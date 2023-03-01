@@ -1,6 +1,6 @@
 export class Point {
-  x: number;
-  y: number;
+  private x: number;
+  private y: number;
 
   constructor();
   constructor(x: number, y: number);
@@ -9,14 +9,14 @@ export class Point {
       this.y = y === undefined ? 0 : y;
   }
 
-  toString () {
+  toString (): string {
     return `(${this.x}, ${this.y})`
   }
 
-  distance();
-  distance(other: Point);
-  distance(x: number, y: number);
-  distance(...args: [Point] | [number, number] | [never]) {
+  distance(): number;
+  distance(other: Point): number;
+  distance(x: number, y: number): number;
+  distance(...args: [Point] | [number, number] | [never]): number {
     const {x: Xa, y: Ya} = this
     let Xb: number, Yb: number;
 

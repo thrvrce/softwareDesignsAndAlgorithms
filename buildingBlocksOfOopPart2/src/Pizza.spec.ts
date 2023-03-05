@@ -1,11 +1,9 @@
-// @ts-nocheck
-
 import { Pizza } from "./Pizza";
 
 describe("Pizza", () => {
   describe("use()", () => {
     it("should return proper string when consumed", () => {
-      const pizza = new Pizza(1, 1, 0);
+      const pizza = new Pizza(1, 1, false,0);
 
       expect(pizza.numberOfSlices).toEqual(0);
       expect(pizza.getNumberOfEatenSlices()).toEqual(0);
@@ -15,7 +13,7 @@ describe("Pizza", () => {
     });
 
     it("should return proper string if is not consumed", () => {
-      const pizza = new Pizza(1, 1, 1);
+      const pizza = new Pizza(1, 1, false, 1);
 
       expect(pizza.numberOfSlices).toEqual(1);
       expect(pizza.getNumberOfEatenSlices()).toEqual(0);

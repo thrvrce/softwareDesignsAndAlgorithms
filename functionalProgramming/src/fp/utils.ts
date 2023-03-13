@@ -5,10 +5,23 @@ export const constant = <A>(a: A) => () => a;
 /**
  * Performs left-to-right function composition
  */
-export function flow<A, B, C>(fa: (a: A) => B, fb: (b: B) => C): (a: A) => C;
-export function flow<A, B, C, D>(fa: (a: A) => B, fb: (b: B) => C, fc: (c: C) => D): (a: A) => D;
-export function flow(...fns: Array<(...args: Array<any>) => any>) {
-  return (a: any) => fns.reduce(
+export function flow<A, B, C>(
+  fa: (a: A) => B,
+  fb: (b: B) => C
+  ): (a: A) => C;
+export function flow<A, B, C, D>(
+  fa: (a: A) => B,
+  fb: (b: B) => C,
+  fc: (c: C) => D
+  ): (a: A) => D;
+export function flow<A, B, C, D, E>(
+  fa: (a: A) => B,
+  fb: (b: B) => C,
+  fc: (c: C) => D,
+  fd: (d: D) => E,
+  ): (a: A) => E;
+export function flow(...fns: Array<(...args: Array<unknown>) => unknown>) {
+  return (a: unknown) => fns.reduce(
     (acc, fn) => fn(acc),
     a,
   );
@@ -18,9 +31,36 @@ export function flow(...fns: Array<(...args: Array<any>) => any>) {
  * Pipes the value into the pipeline of functions
  * Handy for automatic data typing
  */
-export function pipe<A, B>(a: A, fb: (a: A) => B): B;
-export function pipe(a: any, ...fns: Array<(...args: Array<any>) => any>) {
-
+export function pipe<A, B>(
+  a: A,
+  fb: (a: A) => B
+  ): B;
+export function pipe<A, B, C>(
+  a: A,
+  fb: (a: A) => B,
+  fc: (b: B) => C
+  ): C;
+export function pipe<A, B, C, D>(
+  a: A,
+  fb: (a: A) => B,
+  fc: (b: B) => C,
+  fd: (c: C) => D
+  ): D;
+export function pipe<A, B, C, D>(
+  a: A,
+  fb: (a: A) => B,
+  fc: (b: B) => C,
+  fd: (c: C) => D
+  ): D;
+export function pipe<A, B, C, D, E>(
+  a: A,
+  fb: (a: A) => B,
+  fc: (b: B) => C,
+  fd: (c: C) => D,
+  fe: (e: D) => E,
+  ): E;
+export function pipe(a: unknown, ...fns: Array<(...args: Array<unknown>) => unknown>) {
+  return fns.reduce((acc, fn) => fn(acc), a);
 }
 
 export type Predicate<A> = (a: A) => boolean

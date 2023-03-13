@@ -1,6 +1,6 @@
-import { Demand } from './types';
+import { Demand, ClientUserApi } from './types';
 
-export const mockClient = [
+export const mockClient: ClientUserApi[] = [
   { name: 'Philip', demands: [Demand.Driving, Demand.Fighting], position: { x: 10, y: 30 }, reward: 600 },
   { name: 'Payne', demands: [Demand.Driving], position: { x: 5, y: 2 }, reward: 99 },
   { name: 'Paul', demands: [Demand.Fighting], position: { x: 10, y: 6 }, reward: 330 },

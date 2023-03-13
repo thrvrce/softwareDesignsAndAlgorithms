@@ -10,6 +10,11 @@ export interface User {
   position: Point;
 }
 
+export type ClientUserApi = User & {
+  demands: Array<Demand> | null;
+  reward: number;
+}
+
 export enum Demand {
   Driving = 'Driving',
   Fighting = 'Fighting',
@@ -25,3 +30,6 @@ export interface ExecutorUser extends User {
   possibilities: Array<Demand>;
 }
 
+type WithDistance<T extends {position: Point}> = T & { distance: number }
+
+export type ClientUserWithDistance = WithDistance<ClientUser>

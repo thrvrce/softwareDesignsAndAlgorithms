@@ -1,4 +1,5 @@
-import { ShipmentCalculatorByWeight } from "../ShipmentCalculator/ShipmentCalculator";
+import { ShipmentCalculatorStrategy } from "../ShipmentCalculator/ShipmentCalculator";
+import {  ShipmentCompany } from "../ShipmentCompany/ShipmentCompany";
 import { IdGenerator } from "../utils/IdGenerator";
 import { ShipmentConfig } from "./Shipment.types";
 
@@ -13,7 +14,6 @@ export class Shipment {
     return new Shipment(shipmentConfig);
   }
 
-  private shipmentCalculator = new ShipmentCalculatorByWeight(0.39)
   private shipmentId: number;
   private weight: number;
   public fromAddress: string;
@@ -31,7 +31,11 @@ export class Shipment {
   }
 
   public ship(): string {
-    const shipmentCost = this.shipmentCalculator.calculateShipmentCost(this.weight);
+    const shipmentCalculatorContext = new ShipmentCalculatorStrategy()
+    const shipmentCompany = ShipmentCompany.getInstanceByZipCode(this.fromZipCode)
+    shipmentCalculatorContext.setStrategy(shipmentCompany)
+
+    const shipmentCost = shipmentCalculatorContext.calculateShipmentCost(this.weight);
 
     return `shipment ID: ${this.shipmentId}; from address: ${this.fromAddress}; to address: ${this.toAddress}; shipment cost: ${shipmentCost}`;
   }

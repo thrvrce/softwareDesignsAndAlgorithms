@@ -1,27 +1,57 @@
 import { IShipmentCalculator } from "../ShipmentCalculator/ShipmentCalculator"
 
-export class ShipmentCompany implements IShipmentCalculator{
-  private static chicagoSpiritZipCodes = [4, 5, 6]
-  private static pacificParcelZipCodes = [7, 8, 9]
-
-  public static getInstanceByZipCode(zipCode: string): ShipmentCompany {
-    const zipCodeFirstNumber = Number(zipCode[0])
-
-
-    if(ShipmentCompany.chicagoSpiritZipCodes.includes(zipCodeFirstNumber) ) {
-      return new ShipmentCompany('Chicago Sprint', 0.42)
-    }
-
-    if(ShipmentCompany.pacificParcelZipCodes.includes(zipCodeFirstNumber)) {
-      return new ShipmentCompany('Pacific Parcel', 0.51)
-    }
-
-    return new ShipmentCompany('Air East', 0.39)
-  }
-
-  private constructor(public readonly companyName: string, private costByWeight: number) {}
+class ShipmentCompany implements IShipmentCalculator{
+  constructor(private letterCostByWeight: number, private packageCostByWeight: number) {}
 
   public getCost(shipmentWeight: number): number {
-    return this.costByWeight * shipmentWeight
+    if (shipmentWeight <= 15) {
+      return shipmentWeight * this.letterCostByWeight
+    }
+
+    return shipmentWeight * this.packageCostByWeight
   }
 }
+
+export class AirWestShipment extends ShipmentCompany {
+  private oversizeAdditionCost: number = 10;
+
+  constructor() {
+    super(0.39, 0.25)
+  }
+
+  public getCost(shipmentWeight: number): number {
+    const baseCost  = super.getCost(shipmentWeight);
+
+    if (shipmentWeight <= 160 ) {
+      return baseCost
+    }
+
+    return baseCost + this.oversizeAdditionCost;
+  }
+
+}
+
+export class ChicagoSpiritShipment extends ShipmentCompany {
+  constructor() {
+    super(0.42, 0.2)
+  }
+}
+
+export class PacificParcelShipment extends ShipmentCompany {
+  private oversizeCostByWeight: number= 0.02;
+
+  constructor() {
+    super(0.51, 0.19)
+  }
+
+  public getCost(shipmentWeight: number): number {
+    const baseCost  = super.getCost(shipmentWeight);
+
+    if (shipmentWeight <= 160 ) {
+      return baseCost
+    }
+
+    return baseCost + this.oversizeCostByWeight * shipmentWeight;
+  }
+}
+

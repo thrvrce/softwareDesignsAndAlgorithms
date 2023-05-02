@@ -1,3 +1,4 @@
+import { Dijkstra } from "./src/Dijkstra";
 import { Edge } from "./src/Edge";
 import { IWeightedGraph } from "./src/IWeightedGraph";
 import { Vertex } from "./src/Vertex";
@@ -24,7 +25,13 @@ const edges = [
   new Edge(vertex2, vertex4, 6),
   new Edge(vertex2, vertex3, 5),
 ];
+
 const graph: IWeightedGraph = new WeightedGraph();
 
 vertices.forEach(verticle => graph.addVertex(verticle));
 edges.forEach(edge => graph.addEdge(edge.from, edge.to, edge.weight));
+
+const dijkstra = new Dijkstra(graph.graph)
+
+console.log(dijkstra.findAllShortestPaths(vertex1))
+console.log(dijkstra.findShortestPath(vertex1, vertex2))
